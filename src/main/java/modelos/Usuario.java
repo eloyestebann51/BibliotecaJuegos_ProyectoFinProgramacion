@@ -4,14 +4,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "imagen_perfil")
     private String imagenPerfil;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -21,7 +28,6 @@ public class Usuario {
     private List<Biblioteca> biblioteca;
 
     // Constructores
-    
     public Usuario(Long id, String nombre, String email, String imagenPerfil, UsuarioDetalle usuarioDetalle, List<Biblioteca> biblioteca) {
         this.id = id;
         this.nombre = nombre;
@@ -31,11 +37,17 @@ public class Usuario {
         this.biblioteca = biblioteca;
     }
 
+    // Constructor para insertar
+    public Usuario(String nombre, String email, String imagenPerfil) {
+        this.nombre = nombre;
+        this.email = email;
+        this.imagenPerfil = imagenPerfil;
+    }
+
     public Usuario() {
     }
-    
-    // Getters y Setters
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -83,6 +95,4 @@ public class Usuario {
     public void setBiblioteca(List<Biblioteca> biblioteca) {
         this.biblioteca = biblioteca;
     }
-    
-    
 }

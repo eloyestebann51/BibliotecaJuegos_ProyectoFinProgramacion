@@ -3,6 +3,7 @@ package modelos;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "biblioteca")
 public class Biblioteca {
 
     @Id

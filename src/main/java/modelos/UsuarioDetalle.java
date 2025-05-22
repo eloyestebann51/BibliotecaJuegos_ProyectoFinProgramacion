@@ -1,55 +1,83 @@
 package modelos;
 
+import java.time.LocalDate;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "usuario_detalle")
 public class UsuarioDetalle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_usuario")  // Es la PK y FK hacia Usuario
+    private Long idUsuario;
 
-    private String direccion;
-    private String telefono;
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+
+    @Column(name = "pais")
+    private String pais;
+
+    @Column(name = "plataforma_favorita")
+    private String plataformaFavorita;
+
+    @Column(name = "descripcion")
+    private String descripcion;
 
     @OneToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @MapsId // indica que usa el mismo valor PK que Usuario
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
     // Constructores
-    public UsuarioDetalle(Long id, String direccion, String telefono, Usuario usuario) {
-        this.id = id;
-        this.direccion = direccion;
-        this.telefono = telefono;
+    public UsuarioDetalle() {}
+
+    public UsuarioDetalle(LocalDate fechaNacimiento, String pais, String plataformaFavorita, String descripcion, Usuario usuario) {
+        this.fechaNacimiento = fechaNacimiento;
+        this.pais = pais;
+        this.plataformaFavorita = plataformaFavorita;
+        this.descripcion = descripcion;
         this.usuario = usuario;
     }
 
-    public UsuarioDetalle() {
-    }
-
     // Getters y Setters
-    public Long getId() {
-        return id;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPais() {
+        return pais;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getPlataformaFavorita() {
+        return plataformaFavorita;
+    }
+
+    public void setPlataformaFavorita(String plataformaFavorita) {
+        this.plataformaFavorita = plataformaFavorita;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Usuario getUsuario() {
@@ -59,5 +87,4 @@ public class UsuarioDetalle {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
 }

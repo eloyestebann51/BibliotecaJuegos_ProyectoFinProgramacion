@@ -8,11 +8,11 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
         <!-- Aquí se registran tus entidades -->
-        <class>modelo.Usuario</class>
-        <class>modelo.UsuarioDetalle</class>
-        <class>modelo.Juego</class>
-        <class>modelo.Biblioteca</class>
-
+        <class>modelos.Usuario</class>
+        <class>modelos.UsuarioDetalle</class>
+        <class>modelos.Juego</class>
+        <class>modelos.Biblioteca</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
             <!-- URL de conexión a la base de datos -->
@@ -27,7 +27,7 @@
 
             <!-- Configuración adicional EclipseLink -->
             <property name="eclipselink.logging.level" value="FINE"/>
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+            <property name="eclipselink.ddl-generation" value="none"/>
             <property name="eclipselink.ddl-generation.output-mode" value="database"/>
 
         </properties>
