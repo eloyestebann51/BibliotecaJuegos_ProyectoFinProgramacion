@@ -1,9 +1,7 @@
-DROP DATABASE IF exists bibliotecaJuegos;
 CREATE DATABASE IF NOT EXISTS bibliotecaJuegos;
 USE bibliotecaJuegos;
 
 -- Tabla de usuarios
-DROP TABLE IF exists usuarios;
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -12,7 +10,6 @@ CREATE TABLE usuarios (
 );
 
 -- Tabla de juegos
-DROP TABLE IF exists juegos;
 CREATE TABLE juegos (
     id_juego INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
@@ -22,7 +19,6 @@ CREATE TABLE juegos (
 );
 
 -- Tabla de biblioteca: relación entre usuarios y juegos
-DROP TABLE IF exists biblioteca;
 CREATE TABLE biblioteca (
     id_biblioteca INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -163,6 +159,3 @@ INSERT INTO biblioteca (id_usuario, id_juego, fecha_adquisicion) VALUES
 (10, 13, '2024-01-10'),
 (10, 21, '2024-01-13'),
 (10, 28, '2024-01-15');
-
-select *
-from biblioteca;
