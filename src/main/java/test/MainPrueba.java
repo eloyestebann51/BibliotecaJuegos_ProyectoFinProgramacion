@@ -14,7 +14,7 @@ public class MainPrueba {
         // Crear un nuevo usuario
         Usuario nuevo = new Usuario();
         nuevo.setNombre("eloy2");
-        nuevo.setEmail("eloy2@correo.com");
+        nuevo.setEmail("eloy@correo.com");
         nuevo.setImagenPerfil("imagenes/usuarios/sofia.jpg");
 
         // Insertar

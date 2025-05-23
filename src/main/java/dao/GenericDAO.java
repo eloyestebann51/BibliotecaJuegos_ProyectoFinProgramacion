@@ -3,6 +3,7 @@ package dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
+import modelos.Usuario;
 
 public abstract class GenericDAO<T> {
 
@@ -21,11 +22,27 @@ public abstract class GenericDAO<T> {
 
         // Empezamos una transaccion y insertamos una nueva entidad
         try {
+            if (entidad instanceof Usuario) {
+                Usuario nuevoUsuario = (Usuario) entidad;
+                
+                // Cuenta cuantos usuarios hay con ese email
+                Long count = em.createQuery(
+                        "SELECT COUNT(u) FROM Usuario u WHERE u.email = :email", Long.class)
+                        .setParameter("email", nuevoUsuario.getEmail())
+                        .getSingleResult();
+
+                if (count > 0) {
+                    System.out.println("El email ya existe: " + nuevoUsuario.getEmail());
+                    return; // No continuamos con la inserccion
+                }
+            }
+
+            // Insertamos si pasa la validación
             tx.begin();
             em.persist(entidad);
             tx.commit();
         } catch (Exception e) { // Restauramos lo realizado en caso de error
-            if(tx.isActive()) {
+            if (tx.isActive()) {
                 tx.rollback();
             }
         }

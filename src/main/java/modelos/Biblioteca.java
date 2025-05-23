@@ -1,6 +1,7 @@
 package modelos;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "biblioteca")
@@ -8,27 +9,29 @@ public class Biblioteca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_biblioteca")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "juego_id", nullable = false)
+    @JoinColumn(name = "id_juego", nullable = false)
     private Juego juego;
 
-    private String fechaAdquisicion;
+    @Column(name = "fecha_adquisicion")
+    private LocalDate fechaAdquisicion;
 
     // Constructores
-    public Biblioteca(Long id, Usuario usuario, Juego juego, String fechaAdquisicion) {
+    public Biblioteca() {
+    }
+
+    public Biblioteca(Long id, Usuario usuario, Juego juego, LocalDate fechaAdquisicion) {
         this.id = id;
         this.usuario = usuario;
         this.juego = juego;
         this.fechaAdquisicion = fechaAdquisicion;
-    }
-
-    public Biblioteca() {
     }
 
     // Getters y Setters
@@ -56,12 +59,11 @@ public class Biblioteca {
         this.juego = juego;
     }
 
-    public String getFechaAdquisicion() {
+    public LocalDate getFechaAdquisicion() {
         return fechaAdquisicion;
     }
 
-    public void setFechaAdquisicion(String fechaAdquisicion) {
+    public void setFechaAdquisicion(LocalDate fechaAdquisicion) {
         this.fechaAdquisicion = fechaAdquisicion;
     }
-
 }
