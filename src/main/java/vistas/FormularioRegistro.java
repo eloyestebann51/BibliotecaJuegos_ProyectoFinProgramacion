@@ -1,6 +1,5 @@
 package vistas;
 
-import dao.GenericDAO;
 import dao.UsuarioDAO;
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +20,9 @@ public class FormularioRegistro extends javax.swing.JFrame {
      * Creates new form formularioRegistro
      */
     
-    private VistaInicial vistaInicial;
+    private VentanaPrincipal vistaInicial;
     
-    public FormularioRegistro(VistaInicial vistaInicial) {
+    public FormularioRegistro(VentanaPrincipal vistaInicial) {
         initComponents();
         this.vistaInicial = vistaInicial;
     }

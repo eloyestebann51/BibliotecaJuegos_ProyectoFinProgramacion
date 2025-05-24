@@ -1,13 +1,19 @@
 package vistas;
 
 import dao.UsuarioDAO;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelos.Usuario;
@@ -17,14 +23,14 @@ import util.JPAUtil;
  *
  * @author Eloym
  */
-public class vistaInicial extends javax.swing.JFrame {
+public class VentanaPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form vistaInicial
      */
-    public vistaInicial() {
+    public VentanaPrincipal() {
         initComponents();
-        
+
         maximizarVentanaConFondo();
 
         tablaUsuarios.setOpaque(false);
@@ -45,11 +51,31 @@ public class vistaInicial extends javax.swing.JFrame {
     private void initComponents() {
 
         layeredFondo = new javax.swing.JLayeredPane();
+        btnCrearUsuario = new javax.swing.JButton();
+        lblTitulo = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
         scrollUsuarios = new javax.swing.JScrollPane();
         tablaUsuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnCrearUsuario.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
+        btnCrearUsuario.setText("Crear Usuario");
+        btnCrearUsuario.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 255)));
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
+        layeredFondo.add(btnCrearUsuario);
+        btnCrearUsuario.setBounds(420, 620, 210, 90);
+
+        lblTitulo.setBackground(new java.awt.Color(0, 255, 255));
+        lblTitulo.setFont(new java.awt.Font("Impact", 2, 36)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
+        lblTitulo.setText("ELIGE UN USUARIO CON DOBLE CLICK");
+        layeredFondo.add(lblTitulo);
+        lblTitulo.setBounds(490, 30, 570, 120);
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondos/fondoInicial.jpg"))); // NOI18N
         layeredFondo.add(lblFondo);
@@ -70,7 +96,7 @@ public class vistaInicial extends javax.swing.JFrame {
 
         layeredFondo.setLayer(scrollUsuarios, javax.swing.JLayeredPane.MODAL_LAYER);
         layeredFondo.add(scrollUsuarios);
-        scrollUsuarios.setBounds(30, 20, 370, 700);
+        scrollUsuarios.setBounds(30, 20, 370, 910);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,6 +111,12 @@ public class vistaInicial extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        // TODO add your handling code here:
+        FormularioRegistro formRegistro = new FormularioRegistro(this);
+        formRegistro.setVisible(true);
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,29 +135,31 @@ public class vistaInicial extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(vistaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(vistaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(vistaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(vistaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vistaInicial().setVisible(true);
+                new VentanaPrincipal().setVisible(true);
             }
         });
     }
 
-    private void cargarUsuariosEnTabla() {
+    public void cargarUsuariosEnTabla() {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public Class<?> getColumnClass(int column) {
-                // La segunda columna (índice 1) será una imagen
                 if (column == 1) {
                     return ImageIcon.class;
                 }
@@ -134,7 +168,7 @@ public class vistaInicial extends javax.swing.JFrame {
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Tabla no editable
+                return false;
             }
         };
 
@@ -144,19 +178,15 @@ public class vistaInicial extends javax.swing.JFrame {
         UsuarioDAO usuarioDAO = new UsuarioDAO(JPAUtil.getEntityManager());
 
         for (Usuario u : usuarioDAO.listarTodos()) {
-            // Determinar ruta de imagen
             String ruta = u.getImagenPerfil();
             ImageIcon icon;
 
             if (ruta == null || ruta.trim().isEmpty()) {
-                // Usar imagen por defecto
                 icon = new ImageIcon("imagenes/usuarios/defecto.png");
             } else {
-                // Usar imagen del usuario
                 icon = new ImageIcon(ruta);
             }
 
-            // Escalar imagen
             Image img = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
             icon = new ImageIcon(img);
 
@@ -165,35 +195,75 @@ public class vistaInicial extends javax.swing.JFrame {
 
         tablaUsuarios.setRowHeight(45);
         tablaUsuarios.setModel(model);
+
+        // Renderer para la primera columna
+        DefaultTableCellRenderer nombreRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    c.setBackground(row % 2 == 0 ? new Color(235, 248, 255) : new Color(220, 236, 248));
+                    c.setForeground(Color.BLACK);
+                } else {
+                    c.setBackground(new Color(100, 149, 237));
+                    c.setForeground(Color.WHITE);
+                }
+                c.setFont(new Font("Impact", Font.PLAIN, 16));
+                return c;
+            }
+        };
+
+        tablaUsuarios.getColumnModel().getColumn(0).setCellRenderer(nombreRenderer);
+        
+        tablaUsuarios.getTableHeader().setReorderingAllowed(false);
+
+
+        tablaUsuarios.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && !e.isConsumed()) {
+                    e.consume();
+                    int fila = tablaUsuarios.rowAtPoint(e.getPoint());
+                    if (fila != -1) {
+                        // Obtener el nombre o ID del usuario de la fila
+                        String nombreUsuario = tablaUsuarios.getValueAt(fila, 0).toString();
+                    }
+                }
+            }
+        });
+
     }
 
-public void maximizarVentanaConFondo() {
-    // Maximizamos la ventana (con bordes y barra de título)
-    this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    this.setVisible(true);
+    public void maximizarVentanaConFondo() {
+        // Maximizamos la ventana (con bordes y barra de título)
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setVisible(true);
 
-    // Ajustamos el tamaño de los componentes al tamaño actual de la ventana
-    Dimension tamaño = this.getSize();
-    layeredFondo.setBounds(0, 0, tamaño.width, tamaño.height);
-    lblFondo.setBounds(0, 0, tamaño.width, tamaño.height);
+        // Ajustamos el tamaño de los componentes al tamaño actual de la ventana
+        Dimension tamaño = this.getSize();
+        layeredFondo.setBounds(0, 0, tamaño.width, tamaño.height);
+        lblFondo.setBounds(0, 0, tamaño.width, tamaño.height);
 
-    // Añadimos un listener para que cuando redimensiones la ventana,
-    // el fondo y la tabla se ajusten automáticamente
-    this.addComponentListener(new ComponentAdapter() {
-        @Override
-        public void componentResized(ComponentEvent e) {
-            Dimension tamaño = getSize();
-            layeredFondo.setBounds(0, 0, tamaño.width, tamaño.height);
-            lblFondo.setBounds(0, 0, tamaño.width, tamaño.height);
-        }
-    });
-}
-
+        // Añadimos un listener para que cuando redimensiones la ventana,
+        // el fondo y la tabla se ajusten automáticamente
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Dimension tamaño = getSize();
+                layeredFondo.setBounds(0, 0, tamaño.width, tamaño.height);
+                lblFondo.setBounds(0, 0, tamaño.width, tamaño.height);
+            }
+        });
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearUsuario;
     private javax.swing.JLayeredPane layeredFondo;
     private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JScrollPane scrollUsuarios;
     private javax.swing.JTable tablaUsuarios;
     // End of variables declaration//GEN-END:variables
