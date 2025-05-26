@@ -1,23 +1,27 @@
-
 package vistas;
 
+import dao.UsuarioDAO;
 import java.awt.Image;
+import java.time.LocalDate;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelos.Usuario;
+import modelos.UsuarioDetalle;
+import util.JPAUtil;
 
 /**
  *
  * @author Eloym
  */
 public class VistaPerfil extends javax.swing.JFrame {
-    
+
     private Usuario usuario;
 
     /**
      * Creates new form VistaPerfil
      */
-    public VistaPerfil( Usuario usuario) {
+    public VistaPerfil(Usuario usuario) {
         this.usuario = usuario;
         initComponents();
         mostrarFoto(usuario.getImagenPerfil());
@@ -39,12 +43,13 @@ public class VistaPerfil extends javax.swing.JFrame {
         lblFotoUsuario = new javax.swing.JLabel();
         lblPlataforma = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
-        txtPlataforma = new javax.swing.JLabel();
-        txtDescripcion = new javax.swing.JLabel();
-        txtFechaNacimiento = new javax.swing.JLabel();
         lblDescripcion = new javax.swing.JLabel();
         lblPais = new javax.swing.JLabel();
-        txtPais = new javax.swing.JLabel();
+        btnActualizar = new javax.swing.JButton();
+        txtDescripcion = new javax.swing.JTextField();
+        txtPlataforma = new javax.swing.JTextField();
+        txtFecha = new javax.swing.JTextField();
+        txtPais = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,19 +60,31 @@ public class VistaPerfil extends javax.swing.JFrame {
         lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setText("PERFIL");
 
+        lblPlataforma.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblPlataforma.setText("Plataforma Favorita");
 
+        lblFecha.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblFecha.setText("Fecha Nacimiento");
 
-        txtPlataforma.setText(usuario.getUsuarioDetalle().getPlataformaFavorita());
+        lblDescripcion.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblDescripcion.setText("Descripcion");
+
+        lblPais.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblPais.setText("Pais");
+
+        btnActualizar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         txtDescripcion.setText(usuario.getUsuarioDetalle().getDescripcion());
 
-        txtFechaNacimiento.setText(usuario.getUsuarioDetalle().getFechaNacimientoFormateada());
+        txtPlataforma.setText(usuario.getUsuarioDetalle().getPlataformaFavorita());
 
-        lblDescripcion.setText("Descripcion");
-
-        lblPais.setText("Pais");
+        txtFecha.setText(usuario.getUsuarioDetalle().getFechaNacimientoFormateada());
 
         txtPais.setText(usuario.getUsuarioDetalle().getPais());
 
@@ -79,45 +96,54 @@ public class VistaPerfil extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(lblFotoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(367, 367, 367)
-                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addGap(485, 485, 485))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(379, 379, 379)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblPais, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(104, 104, 104)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPais, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(379, 379, 379)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblPais, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(104, 104, 104))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPlataforma))
+                        .addGap(74, 74, 74)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPais, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(73, 73, 73)
-                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescripcion)
-                    .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPais, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPais, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(374, 374, 374))
+                    .addComponent(txtPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(306, 306, 306))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblFotoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,6 +164,39 @@ public class VistaPerfil extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        if (usuario == null) {
+            JOptionPane.showMessageDialog(this, "No se ha cargado ningún usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        UsuarioDetalle detalle = usuario.getUsuarioDetalle();
+
+        // Leer datos desde los campos del formulario
+        detalle.setPais(txtPais.getText());
+        detalle.setPlataformaFavorita(txtPlataforma.getText());
+        detalle.setDescripcion(txtDescripcion.getText());
+
+        // Validar y convertir fecha
+        try {
+            LocalDate fechaNacimiento = LocalDate.parse(txtFecha.getText());
+            detalle.setFechaNacimiento(fechaNacimiento);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "La fecha no es válida. Usa el formato yyyy-MM-dd.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Guardar en la base de datos
+        UsuarioDAO dao = new UsuarioDAO(JPAUtil.getEntityManager());
+        try {
+            dao.actualizar(usuario); // Al tener cascade, también se guarda el detalle
+            JOptionPane.showMessageDialog(this, "Datos actualizados correctamente.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
     // Metodo para mostrar la imagen del usuario
     private void mostrarFoto(String ruta) {
         ImageIcon icon;
@@ -154,6 +213,7 @@ public class VistaPerfil extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblFecha;
@@ -161,9 +221,9 @@ public class VistaPerfil extends javax.swing.JFrame {
     private javax.swing.JLabel lblPais;
     private javax.swing.JLabel lblPlataforma;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JLabel txtDescripcion;
-    private javax.swing.JLabel txtFechaNacimiento;
-    private javax.swing.JLabel txtPais;
-    private javax.swing.JLabel txtPlataforma;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtPais;
+    private javax.swing.JTextField txtPlataforma;
     // End of variables declaration//GEN-END:variables
 }

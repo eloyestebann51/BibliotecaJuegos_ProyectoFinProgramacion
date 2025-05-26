@@ -92,9 +92,9 @@ public class UsuarioDetalle {
 
     public String getFechaNacimientoFormateada() {
         if (fechaNacimiento == null) {
-            return "No disponible";
+            return "yyyy-MM-dd";
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return fechaNacimiento.format(formatter);
     }
 
