@@ -11,6 +11,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -216,9 +217,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         };
 
         tablaUsuarios.getColumnModel().getColumn(0).setCellRenderer(nombreRenderer);
-        
+
         tablaUsuarios.getTableHeader().setReorderingAllowed(false);
 
+        List<Usuario> listaUsuarios = usuarioDAO.listarTodos(); // Esto debe estar accesible
 
         tablaUsuarios.addMouseListener(new MouseAdapter() {
             @Override
@@ -227,8 +229,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     e.consume();
                     int fila = tablaUsuarios.rowAtPoint(e.getPoint());
                     if (fila != -1) {
-                        // Obtener el nombre o ID del usuario de la fila
-                        String nombreUsuario = tablaUsuarios.getValueAt(fila, 0).toString();
+                        Usuario usuarioSeleccionado = listaUsuarios.get(fila);
+
+                        MenuUsuario menu = new MenuUsuario(usuarioSeleccionado);
+                        menu.setVisible(true);
+                        dispose();
                     }
                 }
             }

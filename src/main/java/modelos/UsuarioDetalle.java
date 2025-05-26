@@ -1,6 +1,7 @@
 package modelos;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.*;
 
 @Entity
@@ -29,7 +30,8 @@ public class UsuarioDetalle {
     private Usuario usuario;
 
     // Constructores
-    public UsuarioDetalle() {}
+    public UsuarioDetalle() {
+    }
 
     public UsuarioDetalle(LocalDate fechaNacimiento, String pais, String plataformaFavorita, String descripcion, Usuario usuario) {
         this.fechaNacimiento = fechaNacimiento;
@@ -87,4 +89,13 @@ public class UsuarioDetalle {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    public String getFechaNacimientoFormateada() {
+        if (fechaNacimiento == null) {
+            return "No disponible";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return fechaNacimiento.format(formatter);
+    }
+
 }

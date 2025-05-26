@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelos.Usuario;
 import util.JPAUtil;
@@ -19,12 +20,13 @@ public class FormularioRegistro extends javax.swing.JFrame {
     /**
      * Creates new form formularioRegistro
      */
-    
     private VentanaPrincipal vistaInicial;
-    
+
     public FormularioRegistro(VentanaPrincipal vistaInicial) {
         initComponents();
         this.vistaInicial = vistaInicial;
+        this.setResizable(false); // Bloqueamos que se agrande
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Bloqueamos que cierre el programa
     }
 
     /**
