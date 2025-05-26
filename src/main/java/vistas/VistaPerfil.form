@@ -47,7 +47,7 @@
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="lblFotoUsuario" min="-2" pref="94" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="367" max="-2" attributes="0"/>
-                  <Component id="lblTitulo" pref="106" max="32767" attributes="0"/>
+                  <Component id="lblTitulo" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="485" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -60,12 +60,12 @@
                   </Group>
                   <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txtDescripcion" min="-2" pref="82" max="-2" attributes="0"/>
                       <Component id="txtPlataforma" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="txtFechaNacimiento" min="-2" pref="109" max="-2" attributes="0"/>
                       <Component id="txtPais" min="-2" pref="109" max="-2" attributes="0"/>
+                      <Component id="txtDescripcion" alignment="0" min="-2" pref="469" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="19" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

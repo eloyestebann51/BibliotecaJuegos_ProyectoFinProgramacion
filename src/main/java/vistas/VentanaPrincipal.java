@@ -26,6 +26,8 @@ import util.JPAUtil;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private List<Usuario> listaUsuarios;
+
     /**
      * Creates new form vistaInicial
      */
@@ -220,16 +222,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         tablaUsuarios.getTableHeader().setReorderingAllowed(false);
 
-        List<Usuario> listaUsuarios = usuarioDAO.listarTodos(); // Esto debe estar accesible
+        listaUsuarios = usuarioDAO.listarTodos();
 
         tablaUsuarios.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && !e.isConsumed()) {
                     e.consume();
-                    int fila = tablaUsuarios.rowAtPoint(e.getPoint());
-                    if (fila != -1) {
-                        Usuario usuarioSeleccionado = listaUsuarios.get(fila);
+                    int filaVista = tablaUsuarios.rowAtPoint(e.getPoint());
+                    if (filaVista != -1) {
+                        int filaModelo = tablaUsuarios.convertRowIndexToModel(filaVista);
+                        Usuario usuarioSeleccionado = listaUsuarios.get(filaModelo);
 
                         MenuUsuario menu = new MenuUsuario(usuarioSeleccionado);
                         menu.setVisible(true);
@@ -238,7 +241,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
         });
-
     }
 
     public void maximizarVentanaConFondo() {

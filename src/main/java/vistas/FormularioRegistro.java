@@ -9,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelos.Usuario;
+import modelos.UsuarioDetalle;
 import util.JPAUtil;
 
 /**
@@ -183,16 +184,28 @@ public class FormularioRegistro extends javax.swing.JFrame {
 
     private void btnCrearUsuariooActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuariooActionPerformed
         // TODO add your handling code here
+        // Validar campos obligatorios
+        String usuario = txtUsuario.getText().trim();
+        String email = txtEmail.getText().trim();
 
-        String usuario = txtUsuario.getText();
-        String email = txtEmail.getText();
+        if (usuario.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // No continúa si faltan datos
+        }
 
+        // Aquí podrías añadir más validaciones, por ejemplo, formato válido del email, longitud, etc.
+        // Creamos el nuevo usuario
         Usuario usuarioNuevo = new Usuario(usuario, email, rutaImagenSeleccionada);
+
+        // Creamos un detalle vacío (puedes dejar nulos o poner valores por defecto)
+        UsuarioDetalle detalle = new UsuarioDetalle();
+        detalle.setUsuario(usuarioNuevo); // relación bidireccional
+        usuarioNuevo.setUsuarioDetalle(detalle);
 
         UsuarioDAO usuarioDAO = new UsuarioDAO(JPAUtil.getEntityManager());
 
         try {
-            usuarioDAO.insertar(usuarioNuevo);
+            usuarioDAO.insertar(usuarioNuevo); // se insertan ambos por cascade
             vistaInicial.cargarUsuariosEnTabla();
             JOptionPane.showMessageDialog(this, "Usuario creado con éxito.");
             dispose();
