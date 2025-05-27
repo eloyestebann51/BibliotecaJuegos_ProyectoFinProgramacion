@@ -20,7 +20,7 @@ public class JuegoDAO extends GenericDAO<Juego> {
                     .setParameter("titulo", titulo)
                     .getSingleResult();
         } catch (NoResultException e) {
-            return null; // No se encontró juego con ese título
+            return null; 
         }
     }
 

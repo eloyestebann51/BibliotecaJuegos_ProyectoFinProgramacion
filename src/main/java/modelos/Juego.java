@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "juegos") // Nombre de la tabla en la base de datos
+@Table(name = "juegos") 
 public class Juego {
 
     @Id

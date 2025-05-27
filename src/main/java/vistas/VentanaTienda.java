@@ -146,13 +146,12 @@ public class VentanaTienda extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Ya tienes este juego en tu biblioteca.");
         } else {
             // Agregar juego a la biblioteca del usuario
-            // Aquí dependes de tu lógica para guardar en BD, ejemplo:
             Biblioteca nuevaEntrada = new Biblioteca();
             nuevaEntrada.setUsuario(usuario);
             nuevaEntrada.setJuego(juegoSeleccionado);
             nuevaEntrada.setFechaAdquisicion(java.time.LocalDate.now());
 
-            // Guardar en la BD (depende de cómo implementes DAO)
+            // Guardar en la BD 
             BibliotecaDAO bibliotecaDAO = new BibliotecaDAO(JPAUtil.getEntityManager());
             bibliotecaDAO.guardar(nuevaEntrada);
 
@@ -206,7 +205,7 @@ public class VentanaTienda extends javax.swing.JFrame {
             String rutaImagen = j.getImagen();
             ImageIcon icon;
             if (rutaImagen == null || rutaImagen.isEmpty()) {
-                // Imagen por defecto según plataforma (puedes ajustar rutas)
+                // Imagen por defecto según plataforma
                 switch (j.getPlataforma()) {
                     case PS ->
                         icon = new ImageIcon("imagenes/logos/ps.png");
@@ -221,7 +220,7 @@ public class VentanaTienda extends javax.swing.JFrame {
                 icon = new ImageIcon(rutaImagen);
             }
 
-            // Redimensionar la imagen para la tabla (60x60 px)
+            // Redimensionar la imagen para la tabla 
             Image img = icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             icon = new ImageIcon(img);
 

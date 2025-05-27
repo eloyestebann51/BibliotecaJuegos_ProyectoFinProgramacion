@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -161,6 +160,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public void cargarUsuariosEnTabla() {
+        
+        // Establecemos un modelo para poder mostrar las imagenes
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public Class<?> getColumnClass(int column) {
@@ -200,7 +201,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         tablaUsuarios.setRowHeight(45);
         tablaUsuarios.setModel(model);
 
-        // Renderer para la primera columna
+        // Establecer estio a la primera columna
         DefaultTableCellRenderer nombreRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
@@ -225,6 +226,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         listaUsuarios = usuarioDAO.listarTodos();
 
+        // Añadimos el doble click para seleccionar un usuario
         tablaUsuarios.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

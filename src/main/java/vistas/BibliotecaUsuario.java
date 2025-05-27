@@ -3,7 +3,6 @@ package vistas;
 import dao.BibliotecaDAO;
 import java.awt.Image;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

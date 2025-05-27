@@ -193,11 +193,10 @@ public class FormularioRegistro extends javax.swing.JFrame {
             return; // No continúa si faltan datos
         }
 
-        // Aquí podrías añadir más validaciones, por ejemplo, formato válido del email, longitud, etc.
         // Creamos el nuevo usuario
         Usuario usuarioNuevo = new Usuario(usuario, email, rutaImagenSeleccionada);
 
-        // Creamos un detalle vacío (puedes dejar nulos o poner valores por defecto)
+        // Creamos un detalle vacío 
         UsuarioDetalle detalle = new UsuarioDetalle();
         detalle.setUsuario(usuarioNuevo); // relación bidireccional
         usuarioNuevo.setUsuarioDetalle(detalle);
