@@ -128,7 +128,6 @@ public class VentanaTienda extends javax.swing.JFrame {
             return;
         }
 
-        // Obtener título del juego seleccionado en la tabla
         String tituloJuego = tablaJuegos.getValueAt(filaSeleccionada, 0).toString();
 
         JuegoDAO juegoDAO = new JuegoDAO(JPAUtil.getEntityManager());
@@ -138,28 +137,25 @@ public class VentanaTienda extends javax.swing.JFrame {
             return;
         }
 
-        // Comprobar si el usuario ya tiene el juego
-        boolean yaTieneElJuego = usuario.getBiblioteca().stream()
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO(JPAUtil.getEntityManager());
+        List<Biblioteca> bibliotecaActualizada = bibliotecaDAO.buscarPorUsuario(usuario);
+
+        boolean yaTieneElJuego = bibliotecaActualizada.stream()
                 .anyMatch(b -> b.getJuego().getId().equals(juegoSeleccionado.getId()));
 
         if (yaTieneElJuego) {
             javax.swing.JOptionPane.showMessageDialog(this, "Ya tienes este juego en tu biblioteca.");
         } else {
-            // Agregar juego a la biblioteca del usuario
             Biblioteca nuevaEntrada = new Biblioteca();
             nuevaEntrada.setUsuario(usuario);
             nuevaEntrada.setJuego(juegoSeleccionado);
             nuevaEntrada.setFechaAdquisicion(java.time.LocalDate.now());
 
-            // Guardar en la BD 
-            BibliotecaDAO bibliotecaDAO = new BibliotecaDAO(JPAUtil.getEntityManager());
             bibliotecaDAO.guardar(nuevaEntrada);
 
-            // Actualizar la lista de la biblioteca del usuario localmente
-            usuario.getBiblioteca().add(nuevaEntrada);
+            usuario.getBiblioteca().add(nuevaEntrada); // opcional
 
             javax.swing.JOptionPane.showMessageDialog(this, "Juego comprado y añadido a tu biblioteca.");
-
         }
     }//GEN-LAST:event_btnComprarActionPerformed
 

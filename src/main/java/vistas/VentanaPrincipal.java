@@ -54,6 +54,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         layeredFondo = new javax.swing.JLayeredPane();
         btnCrearUsuario = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
         scrollUsuarios = new javax.swing.JScrollPane();
@@ -70,14 +71,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         layeredFondo.add(btnCrearUsuario);
-        btnCrearUsuario.setBounds(420, 620, 210, 90);
+        btnCrearUsuario.setBounds(430, 630, 210, 90);
+
+        btnSalir.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 255)));
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        layeredFondo.add(btnSalir);
+        btnSalir.setBounds(1130, 670, 110, 50);
 
         lblTitulo.setBackground(new java.awt.Color(0, 255, 255));
         lblTitulo.setFont(new java.awt.Font("Impact", 2, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setText("ELIGE UN USUARIO CON DOBLE CLICK");
         layeredFondo.add(lblTitulo);
-        lblTitulo.setBounds(490, 30, 570, 120);
+        lblTitulo.setBounds(480, 30, 570, 120);
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondos/fondoInicial.jpg"))); // NOI18N
         layeredFondo.add(lblFondo);
@@ -120,6 +132,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         formRegistro.setVisible(true);
 
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,6 +288,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearUsuario;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLayeredPane layeredFondo;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblTitulo;
