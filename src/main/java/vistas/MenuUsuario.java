@@ -58,6 +58,11 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         btnBiblioteca.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
         btnBiblioteca.setText("Biblioteca");
+        btnBiblioteca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBibliotecaActionPerformed(evt);
+            }
+        });
         layeredFondo.add(btnBiblioteca);
         btnBiblioteca.setBounds(90, 240, 190, 100);
 
@@ -125,6 +130,13 @@ public class MenuUsuario extends javax.swing.JFrame {
         vistaPerfil.setVisible(true);
         vistaPerfil.setLocationRelativeTo(null); // Para centrar la ventana
     }//GEN-LAST:event_btnPerfilActionPerformed
+
+    private void btnBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBibliotecaActionPerformed
+        // TODO add your handling code here:
+        BibliotecaUsuario ventanaBiblioteca = new BibliotecaUsuario(usuario);
+        ventanaBiblioteca.setVisible(true);
+        ventanaBiblioteca.setLocationRelativeTo(this); // centrar
+    }//GEN-LAST:event_btnBibliotecaActionPerformed
 
     public void maximizarVentanaConFondo() {
         // Maximizamos la ventana (con bordes y barra de título)

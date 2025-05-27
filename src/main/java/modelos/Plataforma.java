@@ -7,10 +7,8 @@ package modelos;
  */
 
 // Enum que define las plataformas que tenemos disponibles de juegos
-public enum Plataforma {
-    
+public enum Plataforma {   
     PS,
     XBOX,
     NINTENDO
-    
 }
