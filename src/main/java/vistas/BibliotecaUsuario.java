@@ -1,6 +1,9 @@
 package vistas;
 
+import dao.BibliotecaDAO;
 import java.awt.Image;
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -8,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import modelos.Biblioteca;
 import modelos.Juego;
 import modelos.Usuario;
+import util.JPAUtil;
 
 /**
  *
@@ -104,6 +108,9 @@ public class BibliotecaUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cargarBibliotecaUsuario() {
+        BibliotecaDAO dao = new BibliotecaDAO(JPAUtil.getEntityManager());
+        List<Biblioteca> bibliotecaActualizada = dao.buscarPorUsuario(usuario);
+
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Imagen", "Título", "Plataforma", "Fecha Adquisición"}, 0) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
@@ -119,14 +126,13 @@ public class BibliotecaUsuario extends javax.swing.JFrame {
             }
         };
 
-        for (Biblioteca b : usuario.getBiblioteca()) {
+        for (Biblioteca b : bibliotecaActualizada) {
             Juego juego = b.getJuego();
 
             ImageIcon icon;
             String rutaImagen = juego.getImagen();
 
             if (rutaImagen == null || rutaImagen.isEmpty()) {
-                // Elegir logo por plataforma
                 switch (juego.getPlataforma()) {
                     case PS:
                         icon = new ImageIcon("imagenes/logos/ps_logo.png");
@@ -144,7 +150,6 @@ public class BibliotecaUsuario extends javax.swing.JFrame {
                 icon = new ImageIcon(rutaImagen);
             }
 
-            // Redimensionar imagen
             Image img = icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
             icon = new ImageIcon(img);
 
@@ -159,6 +164,7 @@ public class BibliotecaUsuario extends javax.swing.JFrame {
         bibliotecaTabla.setRowHeight(65);
         bibliotecaTabla.setModel(model);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable bibliotecaTabla;

@@ -33,14 +33,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public VentanaPrincipal() {
         initComponents();
-
         maximizarVentanaConFondo();
-
         tablaUsuarios.setOpaque(false);
         ((DefaultTableCellRenderer) tablaUsuarios.getDefaultRenderer(Object.class)).setOpaque(false);
         scrollUsuarios.setOpaque(false);
         scrollUsuarios.getViewport().setOpaque(false);
         cargarUsuariosEnTabla();
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
     }
 
@@ -119,6 +119,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         FormularioRegistro formRegistro = new FormularioRegistro(this);
         formRegistro.setVisible(true);
+
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     /**

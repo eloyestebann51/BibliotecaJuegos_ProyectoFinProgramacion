@@ -24,6 +24,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         initComponents();
         maximizarVentanaConFondo();
         mostrarFoto(usuario.getImagenPerfil());
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
     /**
@@ -122,6 +124,11 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void btnTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTiendaActionPerformed
         // TODO add your handling code here:
+        VentanaTienda venTienda = new VentanaTienda(usuario);
+        venTienda.setVisible(true);
+        venTienda.setLocationRelativeTo(null); // Para centrar la ventana
+        dispose();
+
     }//GEN-LAST:event_btnTiendaActionPerformed
 
     private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
