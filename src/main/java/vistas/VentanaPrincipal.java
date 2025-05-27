@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelos.Usuario;
+import util.BackupUtil;
 import util.JPAUtil;
 
 /**
@@ -54,6 +55,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         layeredFondo = new javax.swing.JLayeredPane();
         btnCrearUsuario = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
@@ -72,6 +75,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         layeredFondo.add(btnCrearUsuario);
         btnCrearUsuario.setBounds(430, 630, 210, 90);
+
+        btnCargar.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
+        btnCargar.setText("Cargar");
+        btnCargar.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 255)));
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
+        layeredFondo.add(btnCargar);
+        btnCargar.setBounds(980, 670, 110, 50);
+
+        btnGuardar.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 255)));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        layeredFondo.add(btnGuardar);
+        btnGuardar.setBounds(830, 670, 110, 50);
 
         btnSalir.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
         btnSalir.setText("Salir");
@@ -137,6 +162,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        BackupUtil.crearBackup();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        // TODO add your handling code here:
+       // BackupUtil.restaurarUltimoBackup();
+    }//GEN-LAST:event_btnCargarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,7 +322,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnCrearUsuario;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLayeredPane layeredFondo;
     private javax.swing.JLabel lblFondo;
