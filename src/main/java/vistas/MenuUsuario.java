@@ -1,12 +1,16 @@
 package vistas;
 
+import dao.UsuarioDetalleDAO;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelos.Usuario;
+import modelos.UsuarioDetalle;
+import util.JPAUtil;
 
 /**
  *
@@ -133,9 +137,36 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
         // TODO add your handling code here:
-        VistaPerfil vistaPerfil = new VistaPerfil(usuario);
-        vistaPerfil.setVisible(true);
-        vistaPerfil.setLocationRelativeTo(null); // Para centrar la ventana
+        if (usuario.getUsuarioDetalle() == null) {
+            int opcion = JOptionPane.showConfirmDialog(
+                    this,
+                    "No tienes un perfil creado. ¿Deseas crear uno ahora?",
+                    "Perfil no encontrado",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                // Crear el detalle vacío
+                UsuarioDetalle detalle = new UsuarioDetalle();
+                detalle.setUsuario(usuario); // Asocia el detalle al usuario
+
+                // Guardar en la base de datos
+                UsuarioDetalleDAO detalleDAO = new UsuarioDetalleDAO(JPAUtil.getEntityManager());
+                detalleDAO.insertar(detalle);
+
+                // Asignar el detalle al usuario (opcional si la sesión lo requiere)
+                usuario.setUsuarioDetalle(detalle);
+
+                // Abrir la vista de perfil
+                VistaPerfil vistaPerfil = new VistaPerfil(usuario);
+                vistaPerfil.setVisible(true);
+                vistaPerfil.setLocationRelativeTo(null);
+            }
+        } else {
+            VistaPerfil vistaPerfil = new VistaPerfil(usuario);
+            vistaPerfil.setVisible(true);
+            vistaPerfil.setLocationRelativeTo(null);
+        }
     }//GEN-LAST:event_btnPerfilActionPerformed
 
     private void btnBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBibliotecaActionPerformed

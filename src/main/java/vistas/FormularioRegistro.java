@@ -196,11 +196,6 @@ public class FormularioRegistro extends javax.swing.JFrame {
         // Creamos el nuevo usuario
         Usuario usuarioNuevo = new Usuario(usuario, email, rutaImagenSeleccionada);
 
-        // Creamos un detalle vacío 
-        UsuarioDetalle detalle = new UsuarioDetalle();
-        detalle.setUsuario(usuarioNuevo); // relación bidireccional
-        usuarioNuevo.setUsuarioDetalle(detalle);
-
         UsuarioDAO usuarioDAO = new UsuarioDAO(JPAUtil.getEntityManager());
 
         try {
