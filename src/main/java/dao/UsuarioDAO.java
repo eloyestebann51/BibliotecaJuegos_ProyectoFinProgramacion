@@ -52,4 +52,18 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
         }
     }
 
+    @Override
+    public void insertar(Usuario usuario) {
+        Long count = em.createQuery(
+                "SELECT COUNT(u) FROM Usuario u WHERE u.email = :email", Long.class)
+                .setParameter("email", usuario.getEmail())
+                .getSingleResult();
+
+        if (count > 0) {
+            throw new IllegalArgumentException("El usuario con ese email ya existe.");
+        }
+
+        super.insertar(usuario); // usa la lógica estándar
+    }
 }
+

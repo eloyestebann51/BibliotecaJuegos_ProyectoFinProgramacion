@@ -16,33 +16,17 @@ public abstract class GenericDAO<T> {
         this.entityClass = entityClass;
     }
 
-    // Inserta una entidad
     public void insertar(T entidad) {
         EntityTransaction tx = em.getTransaction();
-
         try {
-            if (entidad instanceof Usuario) {
-                Usuario nuevoUsuario = (Usuario) entidad;
-
-                Long count = em.createQuery(
-                        "SELECT COUNT(u) FROM Usuario u WHERE u.email = :email", Long.class)
-                        .setParameter("email", nuevoUsuario.getEmail())
-                        .getSingleResult();
-
-                if (count > 0) {
-                    throw new IllegalArgumentException("El usuario con ese email ya existe.");
-                }
-            }
-
             tx.begin();
             em.persist(entidad);
             tx.commit();
-
         } catch (Exception e) {
             if (tx.isActive()) {
                 tx.rollback();
             }
-            throw e; // vuelve a lanzar para manejar arriba
+            throw e;
         }
     }
 

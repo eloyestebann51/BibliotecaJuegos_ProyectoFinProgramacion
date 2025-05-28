@@ -45,4 +45,33 @@ public class BibliotecaDAO extends GenericDAO<Biblioteca> {
         em.persist(biblioteca);
         em.getTransaction().commit();
     }
+
+    public void eliminarPorTituloYUsuario(String titulo, Usuario usuario) {
+        em.getTransaction().begin();
+        try {
+            TypedQuery<Biblioteca> query = em.createQuery(
+                    "SELECT b FROM Biblioteca b WHERE b.usuario = :usuario AND b.juego.titulo = :titulo",
+                    Biblioteca.class
+            );
+            query.setParameter("usuario", usuario);
+            query.setParameter("titulo", titulo);
+
+            Biblioteca biblioteca = query.getSingleResult();
+
+            if (biblioteca != null) {
+                em.remove(biblioteca);
+            }
+
+            em.getTransaction().commit();
+        } catch (NoResultException e) {
+            em.getTransaction().rollback();
+            System.out.println("No se encontró el juego con título: " + titulo + " en la biblioteca del usuario.");
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
 }
