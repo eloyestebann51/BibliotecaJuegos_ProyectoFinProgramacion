@@ -24,7 +24,31 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            throw new IllegalArgumentException("Error al actualizar el usuario: " + e.getMessage());
+            throw new IllegalArgumentException("Error al actualizar el usuario: " + e.getMessage(), e);
+        }
+    }
+
+    public void eliminarPorNombre(String nombreUsuario) {
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            Usuario usuario = em.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.nombre = :nombre", Usuario.class)
+                    .setParameter("nombre", nombreUsuario)
+                    .getSingleResult();
+
+            if (usuario != null) {
+                em.remove(usuario);
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            throw new IllegalArgumentException("Error al eliminar el usuario por nombre: " + e.getMessage(), e);
         }
     }
 

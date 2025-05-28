@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelos.Biblioteca;
 import modelos.Juego;
@@ -144,7 +145,7 @@ public class VentanaTienda extends javax.swing.JFrame {
                 .anyMatch(b -> b.getJuego().getId().equals(juegoSeleccionado.getId()));
 
         if (yaTieneElJuego) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ya tienes este juego en tu biblioteca.");
+            javax.swing.JOptionPane.showMessageDialog(this, "Ya tienes este juego en tu biblioteca.", "Alerta", JOptionPane.WARNING_MESSAGE);
         } else {
             Biblioteca nuevaEntrada = new Biblioteca();
             nuevaEntrada.setUsuario(usuario);

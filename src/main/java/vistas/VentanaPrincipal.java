@@ -57,6 +57,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btnCrearUsuario = new javax.swing.JButton();
         btnCargar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnBorrarUsuario = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
@@ -74,7 +75,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         layeredFondo.add(btnCrearUsuario);
-        btnCrearUsuario.setBounds(430, 630, 210, 90);
+        btnCrearUsuario.setBounds(450, 630, 210, 90);
 
         btnCargar.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
         btnCargar.setText("Cargar");
@@ -97,6 +98,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         layeredFondo.add(btnGuardar);
         btnGuardar.setBounds(830, 670, 110, 50);
+
+        btnBorrarUsuario.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
+        btnBorrarUsuario.setText("Borrar Usuario");
+        btnBorrarUsuario.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 255)));
+        btnBorrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarUsuarioActionPerformed(evt);
+            }
+        });
+        layeredFondo.add(btnBorrarUsuario);
+        btnBorrarUsuario.setBounds(450, 520, 210, 90);
 
         btnSalir.setFont(new java.awt.Font("Impact", 2, 24)); // NOI18N
         btnSalir.setText("Salir");
@@ -172,6 +184,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
        // BackupUtil.restaurarUltimoBackup();
     }//GEN-LAST:event_btnCargarActionPerformed
+
+    private void btnBorrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarUsuarioActionPerformed
+        // TODO add your handling code here:
+        UsuarioDAO usuarioDAO = new UsuarioDAO(JPAUtil.getEntityManager());
+        
+        int filaSeleccionada = tablaUsuarios.getSelectedRow();
+        if (filaSeleccionada == -1) {
+             javax.swing.JOptionPane.showMessageDialog(this, "Por favor, selecciona un usuario para borrar.");
+            return;
+        }
+        
+        String nombreUsuario = tablaUsuarios.getValueAt(filaSeleccionada, 0).toString();
+        usuarioDAO.eliminarPorNombre(nombreUsuario);
+        cargarUsuariosEnTabla();
+    }//GEN-LAST:event_btnBorrarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -322,6 +349,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBorrarUsuario;
     private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnCrearUsuario;
     private javax.swing.JButton btnGuardar;
