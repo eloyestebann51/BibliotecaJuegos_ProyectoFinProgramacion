@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // Comando de construcción real, ejemplo npm
                 sh 'npm install'
-                sh 'npm run build'
+                sh 'npm run build123'
             }
         }
     }
