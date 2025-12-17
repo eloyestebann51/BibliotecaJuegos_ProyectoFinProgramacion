@@ -10,16 +10,15 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Ejecuta el test en Bash
                 sh 'bash test.sh'
             }
             post {
                 always {
-                    // Publica los resultados de test en Jenkins
                     junit 'test-results/results.xml'
                 }
             }
         }
+
 
         stage('Build') {
             when {
