@@ -1,11 +1,15 @@
 pipeline {
     agent any
-
     stages {
-        stage('Build') {
+        stage('Build') {   // El nombre puede ser cualquiera, pero debe ser único
             steps {
-                // Ejecuta un comando que falle intencionadamente
-                sh(script: 'exit 1', returnStatus: false)
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+        stage('Test') {    // Opcional, ejemplo de segunda etapa
+            steps {
+                sh 'npm test'
             }
         }
     }
