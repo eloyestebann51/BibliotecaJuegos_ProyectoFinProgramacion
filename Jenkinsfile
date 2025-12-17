@@ -1,45 +1,56 @@
 pipeline {
     agent any
 
-    environment {
-        NODE_ENV = 'production'
-    }
-
     stages {
-        stage('Install Dependencies') {
+        stage('Checkout') {
             steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'npm rundf234 build || exit 1'
+                checkout scm
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm test || echo "Tests fallaron pero no rompen el build"'
+                script {
+                    try {
+                        sh './test.sh'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
+            }
+            post {
+                always {
+                    junit 'test-results/results.xml'
+                }
             }
         }
 
-        stage('Archive') {
+        stage('Build') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
             steps {
-                archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                echo "Compilando la aplicación..."
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo "Desplegando la aplicación..."
             }
         }
     }
 
     post {
-        success {
-            echo 'Build completado con éxito'
-        }
         failure {
-            echo 'Build falló'
+            echo "El pipeline ha fallado. Revisa los tests."
         }
-        always {
-            echo 'Fin del pipeline, logs completos accesibles'
+        success {
+            echo "Pipeline completado correctamente."
         }
     }
 }
