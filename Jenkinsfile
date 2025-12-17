@@ -10,17 +10,12 @@ pipeline {
 
         stage('Test') {
             steps {
-                script {
-                    try {
-                        sh './test.sh'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
+                // Ejecuta el test en Bash
+                sh 'bash test.sh'
             }
             post {
                 always {
+                    // Publica los resultados de test en Jenkins
                     junit 'test-results/results.xml'
                 }
             }
@@ -32,6 +27,7 @@ pipeline {
             }
             steps {
                 echo "Compilando la aplicación..."
+                // Aquí iría tu comando de build real si lo tienes
             }
         }
 
@@ -41,13 +37,14 @@ pipeline {
             }
             steps {
                 echo "Desplegando la aplicación..."
+                // Aquí iría tu comando de deploy real
             }
         }
     }
 
     post {
         failure {
-            echo "El pipeline ha fallado. Revisa los tests."
+            echo "El pipeline ha fallado. Revisa la etapa Test en Jenkins."
         }
         success {
             echo "Pipeline completado correctamente."
