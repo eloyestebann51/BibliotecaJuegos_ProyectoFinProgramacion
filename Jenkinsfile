@@ -4,7 +4,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm run build123'
+                script {
+                    // Esto falla intencionadamente y fuerza el build a FAILURE
+                    sh 'exit 1'
+                }
             }
         }
     }
