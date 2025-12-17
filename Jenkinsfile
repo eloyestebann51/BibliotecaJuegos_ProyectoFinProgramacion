@@ -8,7 +8,7 @@ pipeline {
                 sh 'npm install'
                 
                 echo 'Construyendo la aplicación...'
-                sh 'npm run build'
+                sh 'npm rundf234 build'
             }
         }
 
