@@ -12,7 +12,7 @@ echo '<testsuites>' >> $REPORT_FILE
 echo '  <testsuite name="BashSumTest" tests="1" failures="0">' >> $REPORT_FILE
 
 # Test de suma
-EXPECTED=5
+EXPECTED=6
 ACTUAL=$((2 + 3))
 
 if [ "$ACTUAL" -eq "$EXPECTED" ]; then
