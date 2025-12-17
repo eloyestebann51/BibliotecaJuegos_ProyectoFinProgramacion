@@ -1,52 +1,36 @@
 pipeline {
-    agent any
+    agent any // Define dónde se ejecuta (puedes usar un contenedor si prefieres)
 
     stages {
         stage('Checkout') {
             steps {
+                // Descarga el código del repositorio
                 checkout scm
             }
         }
 
-        stage('Test') {
-            steps {
-                sh 'bash test.sh'
-            }
-            post {
-                always {
-                    junit 'test-results/results.xml'
-                }
-            }
-        }
-
-
         stage('Build') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
             steps {
-                echo "Compilando la aplicación..."
-                // Aquí iría tu comando de build real si lo tienes
+                echo 'Instalando dependencias y construyendo...'
+                // Ejecutamos los comandos reales
+                sh 'npm install'
+                sh 'npm run build'
             }
         }
 
-        stage('Deploy') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
+        stage('Archive Artifacts') {
             steps {
-                echo "Desplegando la aplicación..."
-                // Aquí iría tu comando de deploy real
+                // Esto hace que el artefacto sea visible en la interfaz de Jenkins
+                // Ajusta la ruta según tu carpeta de salida (dist, build, target, etc.)
+                archiveArtifacts artifacts: 'dist/**', fingerprint: true
             }
         }
     }
-
+    
     post {
-        failure {
-            echo "El pipeline ha fallado. Revisa la etapa Test en Jenkins."
-        }
-        success {
-            echo "Pipeline completado correctamente."
+        always {
+            echo 'Limpiando el espacio de trabajo...'
+            // Opcional: acciones tras finalizar el build
         }
     }
 }
