@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                sh 'npm rundf234 build || exit 1'
             }
         }
 
@@ -43,6 +43,3 @@ pipeline {
         }
     }
 }
-
-
-
