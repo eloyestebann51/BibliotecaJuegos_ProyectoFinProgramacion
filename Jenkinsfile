@@ -6,9 +6,9 @@ pipeline {
             steps {
                 echo 'Instalando dependencias...'
                 sh 'npm install'
-                
+
                 echo 'Construyendo la aplicación...'
-                sh 'npm rundf234 build'
+                sh 'npm rundf234 build || exit 1'
             }
         }
 
@@ -22,11 +22,12 @@ pipeline {
 
     post {
         success {
-            echo 'Build completado con éxito ✅'
+            echo 'Build completado con éxito'
         }
         failure {
-            echo 'Build falló ❌'
+            echo 'Build falló'
         }
     }
 }
+
 
