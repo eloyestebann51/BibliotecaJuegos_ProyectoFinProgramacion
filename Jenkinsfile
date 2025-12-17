@@ -4,9 +4,29 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Simula un build con un archivo
-                s 'cat prueba.txt'
+                echo 'Instalando dependencias...'
+                sh 'npm install'
+                
+                echo 'Construyendo la aplicación...'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                echo 'Archivando artefactos...'
+                archiveArtifacts artifacts: 'dist/**', fingerprint: true
             }
         }
     }
+
+    post {
+        success {
+            echo 'Build completado con éxito ✅'
+        }
+        failure {
+            echo 'Build falló ❌'
+        }
+    }
 }
+
