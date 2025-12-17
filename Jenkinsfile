@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Simula un build con un archivo
-                sh 'cat prueba.txt'
+                s 'cat prueba.txt'
             }
         }
     }
