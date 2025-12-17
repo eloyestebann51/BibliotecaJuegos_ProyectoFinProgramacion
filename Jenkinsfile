@@ -4,9 +4,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Comando de construcción real, ejemplo npm
-                sh 'npm install'
-                sh 'npm run build123'
+                // Este comando falla a propósito
+                sh 'exit 1'
             }
         }
     }
