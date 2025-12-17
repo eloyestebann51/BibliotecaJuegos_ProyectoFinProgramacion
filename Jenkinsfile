@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Este comando falla a propósito
-                sh 'exit 1'
+                sh 'npm run build123'
             }
         }
     }
