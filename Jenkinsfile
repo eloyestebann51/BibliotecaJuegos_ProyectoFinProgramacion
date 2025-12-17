@@ -4,10 +4,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    // Esto falla intencionadamente y fuerza el build a FAILURE
-                    sh 'exit 1'
-                }
+                // Ejecuta un comando que falle intencionadamente
+                sh(script: 'exit 1', returnStatus: false)
             }
         }
     }
